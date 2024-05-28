@@ -56,7 +56,7 @@ tes=vectorizer.transform(lst)
 predictions= SVM.predict(tes)
 #print(predictions)
 for i in predictions:
-        if predictions[i] == 1 :
+        if i == 1 :
             print("---- positive")
-        elif predictions[i] == 0:
+        elif i == 0:
             print("---- negative")
