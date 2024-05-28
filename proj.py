@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import  svm
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
 
 
@@ -37,6 +38,8 @@ feature_names = vectorizer.get_feature_names_out()
 Train_X_Tfidf = vectorizer.transform(Train_X)
 Test_X_Tfidf = vectorizer.transform(Test_X)
 print(Train_X_Tfidf.shape,Train_Y.shape)
+
+#svm
 SVM = svm.SVC(C=1.0, kernel='linear', degree=3, gamma='auto')
 SVM.fit(Train_X_Tfidf,Train_Y)
 # predict the labels on validation dataset
@@ -44,7 +47,36 @@ predictions_SVM = SVM.predict(Test_X_Tfidf)
 # Use accuracy_score function to get the accuracy
 print("SVM Accuracy Score -> ",accuracy_score(predictions_SVM, Test_Y)*100)
 #print(Test_Y,predictions_SVM)
-lst = [ ] 
+
+# Naive Bayes Model
+NB = MultinomialNB()
+NB.fit(Train_X_Tfidf, Train_Y)
+predictions_NB = NB.predict(Test_X_Tfidf)
+print("Naive Bayes Accuracy Score -> ", accuracy_score(predictions_NB, Test_Y) * 100)
+
+print("Enter sentences: ")
+sentences = []
+for i in range(2):
+    sentence = input()
+    sentences.append(sentence)
+
+test_data = vectorizer.transform(sentences)
+
+predictions_SVM = SVM.predict(test_data)
+predictions_NB = NB.predict(test_data)
+
+for prediction in predictions_SVM:
+    if prediction == 1:
+        print("---- SVM: positive")
+    else:
+        print("---- SVM: negative")
+
+for prediction in predictions_NB:
+    if prediction == 1:
+        print("---- Naive Bayes: positive")
+    else:
+        print("---- Naive Bayes: negative")
+'''lst = [ ] 
 print("Enter sentences: ")
   
 for i in range(0, 2): 
@@ -60,4 +92,4 @@ for i in predictions:
         if i == 1 :
             print("---- positive")
         elif i == 0:
-            print("---- negative")
+            print("---- negative")'''
